@@ -7,7 +7,7 @@ import com.motorola.springShopJPA.model.enums.UserRole;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Map;
 
 
 @Entity
@@ -30,12 +30,12 @@ public class ShopUser {
     private UserRole role;
 
     @OneToMany(mappedBy = "shopUser")
-    private List<PurchaseOrder> purchaseOrderList;
+    private Map<Long, PurchaseOrder> purchaseOrderList;
 
     public ShopUser() {
     }
 
-    public ShopUser(Long id, @NotNull @Size(max = 50) String email, @NotNull @Size(max = 50) String password, @NotNull UserRole role, List<PurchaseOrder> purchaseOrderList) {
+    public ShopUser(Long id, @NotNull @Size(max = 50) String email, @NotNull @Size(max = 50) String password, @NotNull UserRole role, Map<Long, PurchaseOrder> purchaseOrderList) {
         this.id = id;
         this.email = email;
         this.password = password;
