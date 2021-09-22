@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Create account</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+          rel="stylesheet"/>
+    <link href="../static/css/style.css" rel="stylesheet"
+          th:href="@{/css/style.css}" type="text/css"/>
+</head>
+<body>
+<form class="form" method="post" th:action="@{/add_user}" th:object="${user}">
+    <h1 class="form__header">Login form</h1>
+    <div class="form__content">
+        <div class="form__field">
+            <input class="form__field__input" id="email"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                   placeholder=" " required th:field="*{email}" type="email">
+            <label>Email</label>
+            <label class="form__field__label" for="email"></label>
+            <p class="form__field__error">Is your Email correct?</p>
+            <div class="form__field__state-icon"></div>
+        </div>
+        <div class="form__field">
+            <input class="form__field__input" id="password"  pattern="[a-zA-Z0-9]{5,}"
+                   placeholder=" " required th:field="*{password}" type="password">
+            <label>Password</label>
+            <label class="form__field__label" for="password"></label>
+            <p class="form__field__error">Is your password correct?</p>
+            <div class="form__field__state-icon"></div>
+        </div>
+        <div class="form__button">
+            <button type="submit">Submit</button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
