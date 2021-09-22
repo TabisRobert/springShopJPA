@@ -23,23 +23,69 @@ public class ShopUser {
     private String email;
 
     @NotNull
-    @Size(max = 50)
+    @Size(max = 100)
     private String password;
 
     @NotNull
-    private UserRole role;
+    private String role;
 
     @OneToMany(mappedBy = "shopUser")
     private Map<Long, PurchaseOrder> purchaseOrderList;
 
+    private boolean enabled;
+
     public ShopUser() {
     }
 
-    public ShopUser(Long id, @NotNull @Size(max = 50) String email, @NotNull @Size(max = 50) String password, @NotNull UserRole role, Map<Long, PurchaseOrder> purchaseOrderList) {
+    public ShopUser(Long id, @NotNull @Size(max = 50) String email, @NotNull @Size(max = 50) String password, @NotNull String role, Map<Long, PurchaseOrder> purchaseOrderList) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
         this.purchaseOrderList = purchaseOrderList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public Map<Long, PurchaseOrder> getPurchaseOrderList() {
+        return purchaseOrderList;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setPurchaseOrderList(Map<Long, PurchaseOrder> purchaseOrderList) {
+        this.purchaseOrderList = purchaseOrderList;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
