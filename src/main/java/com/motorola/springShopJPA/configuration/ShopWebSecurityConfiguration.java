@@ -1,6 +1,5 @@
 package com.motorola.springShopJPA.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,11 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class ShopWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private PasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder bCryptPasswordEncoder;
+    private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public ShopWebSecurityConfiguration(JdbcTemplate jdbcTemplate, PasswordEncoder bCryptPasswordEncoder) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,14 +46,14 @@ public class ShopWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user")
-                .roles("USER")
-                .password(bCryptPasswordEncoder.encode("haslousera"))
-                .and()
-                .withUser("admin")
-                .roles("ADMIN")
-                .password(bCryptPasswordEncoder.encode("hasloadmina"));
+//        auth.inMemoryAuthentication()
+//                .withUser("user")
+//                .roles("USER")
+//                .password(bCryptPasswordEncoder.encode("haslousera"))
+//                .and()
+//                .withUser("admin")
+//                .roles("ADMIN")
+//                .password(bCryptPasswordEncoder.encode("hasloadmina"));
         auth.jdbcAuthentication()
                 .usersByUsernameQuery("select u.email, u.password, enabled from public.shop_user u where u.email=?")
                 .authoritiesByUsernameQuery("select u.email, u.role, enabled from public.shop_user u where u.email=?")
