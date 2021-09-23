@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body>
+
+<div>
+    <form th:action="@{/edit_category}" th:object="${category}" method="post">
+        <p>Name: <textarea type="text" th:text="${category.getName()}" required th:field="*{name}"></textarea></p>
+        <input type="hidden" required th:field="*{id}">
+        <input type="hidden" required th:field="*{productSet}">
+        <p><input type="submit" value="Save changes"/>
+    </form>
+</div>
+
+</body>
+</html>

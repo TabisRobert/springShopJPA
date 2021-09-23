@@ -17,14 +17,16 @@ import java.util.List;
 @Service
 public class ShopUserService {
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
+    private final PasswordEncoder bCryptPasswordEncoder;
+    private final ShopUserRepository shopUserRepository;
 
     @Autowired
-    private PasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    private ShopUserRepository shopUserRepository;
+    public ShopUserService(ModelMapper modelMapper, PasswordEncoder bCryptPasswordEncoder, ShopUserRepository shopUserRepository) {
+        this.modelMapper = modelMapper;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.shopUserRepository = shopUserRepository;
+    }
 
     public void createNewUser(ShopUserDto shopUserDto) {
         prepareUserRole(shopUserDto);
@@ -44,10 +46,18 @@ public class ShopUserService {
             if (shopUser.getId().equals(loggedUser.getId())){
                 continue;
             }
-            ShopUserDto userDto = modelMapper.map(shopUser, ShopUserDto.class);
+            ShopUserDto userDto = getShopUserDto(shopUser);
             userDtos.add(userDto);
         }
         return userDtos;
+    }
+
+    private ShopUserDto getShopUserDto(ShopUser shopUser) {
+        return modelMapper.map(shopUser, ShopUserDto.class);
+    }
+
+    public ShopUserDto getDtoOfCurrentlyLoggedUser(){
+        return getShopUserDto(findCurrentlyLoggedUser());
     }
 
     private ShopUser findCurrentlyLoggedUser() {

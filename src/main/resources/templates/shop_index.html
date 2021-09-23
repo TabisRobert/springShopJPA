@@ -11,20 +11,40 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">WiosennySzop</a>
+        <a class="navbar-brand" href="#">SpringShopJPA</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/user">User View</a>
                 <a class="nav-item nav-link active" href="/special_offers">Special Offers</a>
                 <a class="nav-item nav-link active" href="/cart">Your Cart</a>
                 <a class="nav-item nav-link active" href="/show_orders">Your Orders</a>
                 <a class="nav-item nav-link active" href="/logout">Logout</a>
+                <span th:if="${shop_user.getRole()=='ROLE_ADMIN'}">
+                    <a class="nav-item nav-link active" href="/admin">Admin View</a>
+                </span>
             </div>
         </div>
     </nav>
+    <span th:if="${products != null}">
+        <div>
+            <div id="content">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                    </tr>
+                    <tr th:each="product: ${products}">
+                        <td th:text="*{product.getName()}"></td>
+                        <td th:text="*{product.getPrice()}"></td>
+                        <td th:text="*{product.getProductCategory().getName()}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </span>
 
 </body>
 </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <span th:if="${products != null}">
+        <div>
+            <div id="content">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Options</th>
+                    </tr>
+                    <tr th:each="product: ${products}">
+                        <td th:text="*{product.getName()}"></td>
+                        <td th:text="*{product.getPrice()}"></td>
+                        <td th:text="${product.getProductCategory().getName()}"></td>
+                        <td>
+                            <form th:action="@{/product_edition}" method="post">
+                                <input type="hidden" th:value="${product.getId()}" name="product_id"/>
+                                <input type="submit" value="Edit">
+                            </form>
+                        </td>
+                        <td>
+                            <form th:action="@{/delete_product}" method="post">
+                                <input type="hidden" th:value="${product.getId()}" name="product_id"/>
+                                <input type="submit" value="Delete">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </span>
+    <div>
+        <form th:action="@{/add_product}" th:object="${new_product}" method="post">
+            <p>Description: <input type="text" required th:field="*{description}" placeholder="Product description"></p>
+            <p>Name: <input type="text" required th:field="*{name}" placeholder="Product name"></p>
+            <p>Price: <input type="number" step="0.01" required th:field="*{price}">$</p>
+            <p>
+                <select name="product_category">
+                    <option th:each="category: ${categories}" th:value="${category.getName()}" th:text="${category.getName()}"></option>
+                </select>
+            </p>
+            <p><input type="submit" value="Add product"/>
+        </form>
+    </div>
+
+</body>
+</html>

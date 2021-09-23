@@ -16,7 +16,7 @@ public class SpringConfiguration {
     }
 
     @Bean
-    public ModelMapper mapper(){
+    public ModelMapper modelMapper(){
         return new ModelMapper();
     }
 }

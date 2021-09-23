@@ -30,6 +30,6 @@ public class ShopUserController {
     @PostMapping("/add_user")
     public String addNewUser(@ModelAttribute @Valid ShopUserDto shopUserDto) {
         shopUserService.createNewUser(shopUserDto);
-        return "redirect:/login";
+        return "redirect:/home";
     }
 }
