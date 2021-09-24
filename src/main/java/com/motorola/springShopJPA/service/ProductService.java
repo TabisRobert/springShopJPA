@@ -2,7 +2,6 @@ package com.motorola.springShopJPA.service;
 
 import com.motorola.springShopJPA.model.dto.ProductDto;
 import com.motorola.springShopJPA.model.entity.Product;
-import com.motorola.springShopJPA.model.entity.ProductCategory;
 import com.motorola.springShopJPA.repository.ProductCategoryRepository;
 import com.motorola.springShopJPA.repository.ProductRepository;
 import org.modelmapper.ModelMapper;

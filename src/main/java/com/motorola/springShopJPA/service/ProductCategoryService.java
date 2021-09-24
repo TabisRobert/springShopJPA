@@ -55,7 +55,7 @@ public class ProductCategoryService {
         Optional<ProductCategory> category = productCategoryRepository.findById(id);
         List<Product> allProducts = (List<Product>) productRepository.findAll();
         for (Product product: allProducts) {
-            if (category.isPresent() && product.getProductCategory().equals(category)){
+            if (category.isPresent() && product.getProductCategory().equals(category.get())){
                 product.setProductCategory(productCategoryRepository.findByName("Default"));
             }
         }
