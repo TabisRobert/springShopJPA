@@ -1,30 +1,14 @@
-package com.motorola.springShopJPA.model.entity;
+package com.motorola.springShopJPA.model.dto;
 
+import com.motorola.springShopJPA.model.entity.Product;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-@Entity
-public class Article {
+public class ArticleDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "article_id")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
     private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private PurchaseOrder purchaseOrder;
-
-    @NotNull
     private Integer quantity;
-
-    @NotNull
     private BigDecimal articleTotalPrice;
 
     public Long getId() {
@@ -41,14 +25,6 @@ public class Article {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public PurchaseOrder getPurchaseOrder() {
-        return purchaseOrder;
-    }
-
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
-        this.purchaseOrder = purchaseOrder;
     }
 
     public Integer getQuantity() {
