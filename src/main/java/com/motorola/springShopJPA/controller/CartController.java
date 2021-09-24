@@ -4,7 +4,7 @@ import com.motorola.springShopJPA.model.dto.ArticleDto;
 import com.motorola.springShopJPA.model.entity.ShoppingCart;
 import com.motorola.springShopJPA.service.ArticleService;
 import com.motorola.springShopJPA.service.CartService;
-import com.motorola.springShopJPA.service.ProductService;
+import com.motorola.springShopJPA.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +19,13 @@ public class CartController {
 
     private final CartService cartService;
     private final ArticleService articleService;
+    private final PurchaseOrderService purchaseOrderService;
 
     @Autowired
-    public CartController(CartService cartService, ArticleService articleService) {
+    public CartController(CartService cartService, ArticleService articleService, PurchaseOrderService purchaseOrderService) {
         this.cartService = cartService;
         this.articleService = articleService;
+        this.purchaseOrderService = purchaseOrderService;
     }
 
     @PostMapping("/add_to_cart")
@@ -71,6 +73,13 @@ public class CartController {
     public String deleteArticle(Model model, @ModelAttribute("shopping_cart") ShoppingCart shoppingCart, @RequestParam("article_id") Long articleId) {
         shoppingCart.getArticles().remove(articleId);
         articleService.deleteArticleById(articleId);
+        model.addAttribute("shopping_cart", shoppingCart);
+        return "redirect:/cart";
+    }
+    @PostMapping("/create_order")
+    public String createNewOrder(Model model, @ModelAttribute("shopping_cart") ShoppingCart shoppingCart){
+        purchaseOrderService.createNewOrderFromCart(shoppingCart);
+        shoppingCart.getArticles().keySet().removeAll(shoppingCart.getArticles().keySet());
         model.addAttribute("shopping_cart", shoppingCart);
         return "redirect:/cart";
     }
