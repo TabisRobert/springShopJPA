@@ -32,4 +32,44 @@ public class PurchaseOrder {
         this.id = id;
         this.shopUser = shopUser;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Map<Long, Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(Map<Long, Article> articles) {
+        this.articles = articles;
+    }
+
+    public ShopUser getShopUser() {
+        return shopUser;
+    }
+
+    public void setShopUser(ShopUser shopUser) {
+        this.shopUser = shopUser;
+    }
+
+    public SpecialOffer getSpecialOffer() {
+        return specialOffer;
+    }
+
+    public void setSpecialOffer(SpecialOffer specialOffer) {
+        this.specialOffer = specialOffer;
+    }
+
+    public BigDecimal getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
+    }
 }

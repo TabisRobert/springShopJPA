@@ -126,11 +126,11 @@ button:hover {
 }
 
 .form__field__input:valid ~ .form__field__state-icon {
-    background-image: url(/img/success.svg);
+    background-image: url(static/img/success.svg);
 }
 
 .form__field__input:invalid ~ .form__field__state-icon {
-    background-image: url(/img/error.svg);
+    background-image: url(static/img/error.svg);
 }
 
 .form__field__input:invalid ~ .form__field__error {
