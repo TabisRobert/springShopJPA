@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <title>Title</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,25 +17,9 @@
             <a class="nav-item nav-link active" href="/admin">Admin view</a>
             <a class="nav-item nav-link active" href="/admin_product_options">Products options</a>
             <a class="nav-item nav-link active" href="/admin_category_options">Categories options</a>
-            <a class="nav-item nav-link active" href="/admin_order_options">Orders options</a>
         </div>
     </div>
 </nav>
-
-<div>
-    <form th:action="@{/edit_product}" th:object="${product}" method="post">
-        <p>Name: <textarea type="text" th:text="${product.getName()}" required th:field="*{name}"></textarea></p>
-        <p>Description: <textarea type="text" th:text="${product.getDescription()}" required th:field="*{description}"></textarea></p>
-        <p>Price: <input type="number" th:value="${product.getPrice()}" step="0.01" required th:field="*{price}" ></p>
-        <input type="hidden" required th:field="*{id}">
-        <p>
-            <select name="product_category">
-                <option th:each="category: ${categories}" th:value="${category.getName()}" th:text="${category.getName()}"></option>
-            </select>
-        </p>
-        <p><input type="submit" value="Save changes"/>
-    </form>
-</div>
 
 </body>
 </html>

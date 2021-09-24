@@ -2,9 +2,25 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <title>Title</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Administrator View</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/admin">Admin view</a>
+            <a class="nav-item nav-link active" href="/admin_product_options">Products options</a>
+            <a class="nav-item nav-link active" href="/admin_order_options">Orders options</a>
+        </div>
+    </div>
+</nav>
+
 <span th:if="${categories != null}">
         <div>
             <div id="content">
@@ -22,10 +38,12 @@
                             </form>
                         </td>
                         <td>
-                            <form th:action="@{/delete_category}" method="post">
-                                <input type="hidden" th:value="${category.getId()}" name="category_id"/>
-                                <input type="submit" value="Delete">
-                            </form>
+                            <span th:if="${category.getName()!='Default'}">
+                                <form th:action="@{/delete_category}" method="post">
+                                    <input type="hidden" th:value="${category.getId()}" name="category_id"/>
+                                    <input type="submit" value="Delete">
+                                </form>
+                            </span>
                         </td>
                     </tr>
                 </table>

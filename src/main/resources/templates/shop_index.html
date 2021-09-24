@@ -35,11 +35,19 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Category</th>
+                        <th>Action</th>
                     </tr>
                     <tr th:each="product: ${products}">
                         <td th:text="*{product.getName()}"></td>
                         <td th:text="*{product.getPrice()}"></td>
                         <td th:text="*{product.getProductCategory().getName()}"></td>
+                        <td>
+                            <form th:action="@{/add_to_cart}"  method="post">
+                                <p>Set quantity:<input type="number" min="1" name="product_quantity"/></p>
+                                <input type="hidden" th:value="${product.getId()}" name="product_id">
+                                <input type="submit" value="Add to shoppingCart"/>
+                            </form>
+                        </td>
                     </tr>
                 </table>
             </div>
