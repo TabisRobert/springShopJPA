@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Cart</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">SpringShopJPA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/index">Return</a>
+        </div>
+    </div>
+</nav>
+<span th:if="${cart != null}">
+        <div>
+            <div id="content">
+                <table>
+                    <tr>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Value</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr th:each="key: ${cart.getArticles().keySet()}">
+                        <td th:text="*{cart.getArticles().get(key).getProduct().getName()}"></td>
+                        <td th:text="*{cart.getArticles().get(key).getProduct().getProductCategory().getName()}"></td>
+                        <td th:text="*{cart.getArticles().get(key).getQuantity()}"></td>
+                        <td th:text="*{cart.getArticles().get(key).getArticleTotalPrice()}"></td>
+
+                        <td>
+                            <form th:action="@{/edit_article}"  method="post">
+                                <input type="number" th:value="${cart.getArticles().get(key).getQuantity()}" min="0" name="article_quantity">
+                                <input type="hidden" th:value="${cart.getArticles().get(key).getId()}" name="article_id">
+                                <input type="submit" value="Edit"/>
+                            </form>
+                        </td>
+                        <td>
+                            <form th:action="@{/delete_article}"  method="post">
+                                <input type="hidden" th:value="${cart.getArticles().get(key).getId()}" name="article_id">
+                                <input type="submit" value="Delete"/>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </span>
+
+</body>
+</html>
