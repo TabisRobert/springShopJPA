@@ -12,7 +12,6 @@ public class ProductDto {
     private String description;
     private BigDecimal price;
     private ProductCategoryDto productCategory;
-    private Set<Article> articles;
 
     public Long getId() {
         return id;
@@ -48,14 +47,6 @@ public class ProductDto {
 
     public void setProductCategory(ProductCategoryDto productCategory) {
         this.productCategory = productCategory;
-    }
-
-    public Set<Article> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(Set<Article> articles) {
-        this.articles = articles;
     }
 
     public void setId(Long id) {
