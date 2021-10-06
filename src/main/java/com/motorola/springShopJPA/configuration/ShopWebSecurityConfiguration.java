@@ -27,7 +27,7 @@ public class ShopWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAuthority("ROLE_ADMIN")
                 .antMatchers("/index")
                 .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                .antMatchers("/login","/home","/create_user").permitAll()
+                .antMatchers("/login","/home","/create_user","/add_user").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
