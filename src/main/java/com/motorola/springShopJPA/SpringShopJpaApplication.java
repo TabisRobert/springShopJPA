@@ -15,7 +15,7 @@ public class SpringShopJpaApplication {
 
 	private static void openHomePage() {
 		try {
-			Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler http://localhost:8080/login");
+			Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler http://localhost:8080/home");
 		} catch (IOException e) {
 			throw new RuntimeException("Unable to open homepage");
 		}
