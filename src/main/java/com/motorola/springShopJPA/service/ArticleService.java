@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ArticleService {
@@ -26,15 +29,33 @@ public class ArticleService {
         this.productRepository = productRepository;
     }
 
-    public ArticleDto addNewArticle(Long productId, Integer quantity) {
-        Article newArticle = new Article();
-        final Optional<Product> product = productRepository.findById(productId);
-        product.ifPresent(newArticle::setProduct);
-        newArticle.setQuantity(quantity);
-        newArticle.setArticleTotalPrice(newArticle.getProduct().getPrice().multiply(BigDecimal.valueOf(newArticle.getQuantity())));
-        articleRepository.save(newArticle);
-        Article recentlyAddedArticle = articleRepository.findTopByOrderByIdDesc();
-        return modelMapper.map(recentlyAddedArticle, ArticleDto.class);
+    public ArticleDto addNewArticle(Long productId, Integer quantity, Map<Long, ArticleDto> articles) {
+        if (articles!=null && articles.size()>0){
+            final Set<Map.Entry<Long, ArticleDto>> cartArticlesEntries = articles.entrySet();
+            for (Map.Entry<Long, ArticleDto> entry : cartArticlesEntries) {
+                if (entry.getValue().getProduct().getId().equals(productId)){
+                    final Optional<Article> editedArticle = articleRepository.findById(entry.getKey());
+                    if (editedArticle.isPresent()){
+                        final Article article = editedArticle.get();
+                        editArticle(article.getId(),quantity);
+                        return modelMapper.map(article, ArticleDto.class);
+                    }
+                }
+            }
+        }
+        if (articles == null || articles.size()>0){
+            Article newArticle = new Article();
+            final Optional<Product> product = productRepository.findById(productId);
+            product.ifPresent(newArticle::setProduct);
+            newArticle.setQuantity(quantity);
+            newArticle.setOrdered(false);
+            newArticle.setArticleTotalPrice(newArticle.getProduct().getPrice().multiply(BigDecimal.valueOf(newArticle.getQuantity())));
+            product.ifPresent(product1 -> product1.getArticles().add(newArticle));
+            articleRepository.save(newArticle);
+            Article recentlyAddedArticle = articleRepository.findTopByOrderByIdDesc();
+            return modelMapper.map(recentlyAddedArticle, ArticleDto.class);
+        }
+        throw new RuntimeException("Błąd");
     }
 
     public void deleteArticleById(Long articleId) {
