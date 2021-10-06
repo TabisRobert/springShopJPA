@@ -24,6 +24,8 @@ public class Article {
     @NotNull
     private Integer quantity;
 
+    private boolean isOrdered;
+
     @NotNull
     private BigDecimal articleTotalPrice;
 
@@ -65,5 +67,13 @@ public class Article {
 
     public void setArticleTotalPrice(BigDecimal articleTotalPrice) {
         this.articleTotalPrice = articleTotalPrice;
+    }
+
+    public boolean isOrdered() {
+        return isOrdered;
+    }
+
+    public void setOrdered(boolean ordered) {
+        isOrdered = ordered;
     }
 }

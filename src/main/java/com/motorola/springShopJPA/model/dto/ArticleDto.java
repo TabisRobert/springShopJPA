@@ -10,6 +10,7 @@ public class ArticleDto {
     private Product product;
     private Integer quantity;
     private BigDecimal articleTotalPrice;
+    private boolean isOrdered;
 
     public Long getId() {
         return id;
@@ -41,5 +42,13 @@ public class ArticleDto {
 
     public void setArticleTotalPrice(BigDecimal articleTotalPrice) {
         this.articleTotalPrice = articleTotalPrice;
+    }
+
+    public boolean isOrdered() {
+        return isOrdered;
+    }
+
+    public void setOrdered(boolean ordered) {
+        isOrdered = ordered;
     }
 }
