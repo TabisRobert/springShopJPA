@@ -23,6 +23,7 @@
 </nav>
 <span th:if="${orders != null}">
     <span th:each="order: ${orders}">
+        <span th:if="${order.getShopUser().getId()} == ${user.getId()}">
     <p th:text="'Order ID = ' + ${order.getId()} + ' Total value = ' + ${order.getTotalValue()}"></p>
         <div>
             <div id="content">
@@ -42,6 +43,7 @@
                 </table>
             </div>
         </div>
+        </span>
     </span>
 </span>
 </body>

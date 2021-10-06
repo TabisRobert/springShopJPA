@@ -24,18 +24,17 @@
 <span th:if="${cart != null}">
         <div>
             <div id="content">
+                <p th:text="' Cart total value = ' + ${cart.getTotalValue()}"></p>
                 <table>
                     <tr>
                         <th>Product</th>
                         <th>Category</th>
-                        <th>Quantity</th>
                         <th>Value</th>
-                        <th>Action</th>
+                        <th>Quantity</th>
                     </tr>
                     <tr th:each="key: ${cart.getArticles().keySet()}">
                         <td th:text="*{cart.getArticles().get(key).getProduct().getName()}"></td>
                         <td th:text="*{cart.getArticles().get(key).getProduct().getProductCategory().getName()}"></td>
-                        <td th:text="*{cart.getArticles().get(key).getQuantity()}"></td>
                         <td th:text="*{cart.getArticles().get(key).getArticleTotalPrice()}"></td>
 
                         <td>
@@ -58,6 +57,6 @@
     <form method="post" th:action="@{/create_order}">
         <input type="submit" value="Create order"/>
     </form>
-    </span>
+</span>
 </body>
 </html>
