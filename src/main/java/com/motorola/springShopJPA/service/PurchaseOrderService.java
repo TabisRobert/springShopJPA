@@ -36,20 +36,31 @@ public class PurchaseOrderService {
     }
 
     public void createNewOrderFromCart(ShoppingCart shoppingCart) {
+        Optional<ShopUser> shopUser = shopUserRepository.findById(shoppingCart.getShopUserId());
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
+        shopUser.ifPresent(purchaseOrder::setShopUser);
         Map<Long, Article> articleMap = new HashMap<>();
-        BigDecimal totalValue = BigDecimal.ZERO;
+        savePurchaseOrderToDatabase(purchaseOrder);
+
+        purchaseOrder = purchaseOrderRepository.findTopByOrderByIdDesc();
         for (Long key: shoppingCart.getArticles().keySet()) {
             Optional<Article> article = articleRepository.findById(key);
-            article.ifPresent(article1 -> totalValue.add(article.get().getArticleTotalPrice()));
-            article.ifPresent(value -> articleMap.put(key, value));
+            if (article.isPresent()){
+                Article orderedArticle = article.get();
+                articleMap.put(key, orderedArticle);
+                orderedArticle.setOrdered(true);
+                orderedArticle.setPurchaseOrder(purchaseOrder);
+                articleRepository.save(orderedArticle);
+            }
         }
-        PurchaseOrder purchaseOrder = new PurchaseOrder();
         purchaseOrder.setArticles(articleMap);
-        Optional<ShopUser> shopUser = shopUserRepository.findById(shoppingCart.getShopUserId());
-        shopUser.ifPresent(purchaseOrder::setShopUser);
-        purchaseOrder.setTotalValue(totalValue);
-        purchaseOrderRepository.save(purchaseOrder);
+        purchaseOrder.setTotalValue(shoppingCart.getTotalValue());
+        savePurchaseOrderToDatabase(purchaseOrder);
 
+    }
+
+    private void savePurchaseOrderToDatabase(PurchaseOrder purchaseOrder) {
+        purchaseOrderRepository.save(purchaseOrder);
     }
 
     public List<PurchaseOrderDto> getAllOrders(){
@@ -69,5 +80,17 @@ public class PurchaseOrderService {
         }
 
         return orderDtos;
+    }
+
+    public void deletePurchaseOrderById(Long id){
+        final Optional<PurchaseOrder> existingOrder = purchaseOrderRepository.findById(id);
+        if (existingOrder.isPresent()){
+            final Map<Long, Article> articles = existingOrder.get().getArticles();
+            for (Map.Entry<Long,Article> entry: articles.entrySet()){
+                articleRepository.deleteById(entry.getKey());
+            }
+            articles.clear();
+        }
+        purchaseOrderRepository.deleteById(id);
     }
 }
