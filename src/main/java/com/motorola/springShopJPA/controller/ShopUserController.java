@@ -32,4 +32,5 @@ public class ShopUserController {
         shopUserService.createNewUser(shopUserDto);
         return "redirect:/home";
     }
+
 }
