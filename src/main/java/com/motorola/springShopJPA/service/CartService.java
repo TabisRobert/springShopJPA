@@ -13,11 +13,9 @@ import java.util.Set;
 public class CartService {
 
     private final ShopUserService shopUserService;
-    private final SpecialOfferService specialOfferService;
 
-    public CartService(ShopUserService shopUserService, SpecialOfferService specialOfferService) {
+    public CartService(ShopUserService shopUserService) {
         this.shopUserService = shopUserService;
-        this.specialOfferService = specialOfferService;
     }
 
 
@@ -37,12 +35,6 @@ public class CartService {
             cart.setTotalValue(totalPrice.get());
         } else {
             cart.setTotalValue(BigDecimal.ZERO);
-        }
-    }
-
-    private void checkIfSpecialOffersAreAvaialable(ShoppingCart cart){
-        if (cart.getSpecialOfferId()==0L){
-
         }
     }
 }

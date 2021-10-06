@@ -24,7 +24,10 @@
 <span th:if="${orders != null}">
     <span th:each="order: ${orders}">
         <span th:if="${order.getShopUser().getId()} == ${user.getId()}">
-    <p th:text="'Order ID = ' + ${order.getId()} + ' Total value = ' + ${order.getTotalValue()}"></p>
+        <p th:text="'Order ID = ' + ${order.getId()} + ' Total value = ' + ${order.getTotalValue()}"></p>
+        <span th:if="${order.getSpecialOffer()!= null}">
+            <p th:text="'Special offer aplied ' + ${order.getSpecialOffer().getName()} + ' discount description: ' + ${order.getSpecialOffer().getDescription()}"></p>
+        </span>
         <div>
             <div id="content">
                 <table>

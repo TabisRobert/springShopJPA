@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class PurchaseOrderService {
@@ -25,14 +24,16 @@ public class PurchaseOrderService {
     private final ArticleRepository articleRepository;
     private final ShopUserRepository shopUserRepository;
     private final ModelMapper modelMapper;
+    private final SpecialOfferService specialOfferService;
 
 
     @Autowired
-    public PurchaseOrderService(PurchaseOrderRepository purchaseOrderRepository, ArticleRepository articleRepository, ShopUserRepository shopUserRepository, ModelMapper modelMapper) {
+    public PurchaseOrderService(PurchaseOrderRepository purchaseOrderRepository, ArticleRepository articleRepository, ShopUserRepository shopUserRepository, ModelMapper modelMapper, SpecialOfferService specialOfferService) {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.articleRepository = articleRepository;
         this.shopUserRepository = shopUserRepository;
         this.modelMapper = modelMapper;
+        this.specialOfferService = specialOfferService;
     }
 
     public void createNewOrderFromCart(ShoppingCart shoppingCart) {
@@ -54,9 +55,16 @@ public class PurchaseOrderService {
             }
         }
         purchaseOrder.setArticles(articleMap);
-        purchaseOrder.setTotalValue(shoppingCart.getTotalValue());
+        final BigDecimal cartTotalValue = shoppingCart.getTotalValue();
+        purchaseOrder.setTotalValue(cartTotalValue);
+        checkForSpecialOffers(purchaseOrder);
         savePurchaseOrderToDatabase(purchaseOrder);
 
+    }
+
+    private void checkForSpecialOffers(PurchaseOrder purchaseOrder) {
+        specialOfferService.checkDiscountForTenFoodArticles(purchaseOrder);
+        specialOfferService.checkDiscountForThreeCosmetics(purchaseOrder);
     }
 
     private void savePurchaseOrderToDatabase(PurchaseOrder purchaseOrder) {
