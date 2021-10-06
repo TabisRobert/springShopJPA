@@ -3,13 +3,9 @@ package com.motorola.springShopJPA.controller;
 import com.motorola.springShopJPA.model.dto.ProductCategoryDto;
 import com.motorola.springShopJPA.model.dto.ProductDto;
 import com.motorola.springShopJPA.model.dto.ShopUserDto;
-import com.motorola.springShopJPA.model.entity.ProductCategory;
-import com.motorola.springShopJPA.service.ProductCategoryService;
-import com.motorola.springShopJPA.service.ProductService;
-import com.motorola.springShopJPA.service.PurchaseOrderService;
-import com.motorola.springShopJPA.service.ShopUserService;
-import jdk.jfr.Category;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.motorola.springShopJPA.model.dto.SpecialOfferDto;
+import com.motorola.springShopJPA.model.enums.SpecialOfferDiscountType;
+import com.motorola.springShopJPA.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +23,14 @@ public class AdminController {
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
     private final PurchaseOrderService purchaseOrderService;
+    private final SpecialOfferService specialOfferService;
 
-    public AdminController(ShopUserService shopUserService, ProductService productService, PurchaseOrderService purchaseOrderService, ProductCategoryService productCategoryService) {
+    public AdminController(ShopUserService shopUserService, ProductService productService, PurchaseOrderService purchaseOrderService, ProductCategoryService productCategoryService, SpecialOfferService specialOfferService) {
         this.shopUserService = shopUserService;
         this.productService = productService;
         this.purchaseOrderService = purchaseOrderService;
         this.productCategoryService = productCategoryService;
+        this.specialOfferService = specialOfferService;
     }
 
     @GetMapping("/admin")
@@ -64,11 +62,19 @@ public class AdminController {
         model.addAttribute("new_category", new ProductCategoryDto());
         return "admin_category_crud";
     }
-//    @GetMapping("/admin_order_options")
-//    public String getOrdersWithAdminOptions(Model model){
-//        model.addAttribute("orders", purchaseOrderService.getAllOrders());
-//        return "admin_order_crud";
-//    }
+    @GetMapping("/admin_order_options")
+    public String getOrdersWithAdminOptions(Model model){
+        model.addAttribute("orders", purchaseOrderService.getAllOrders());
+        return "admin_order_crud";
+    }
+    @GetMapping("admin_discount_options")
+    public String getSpecialOffersWithAdminOptions(Model model){
+        SpecialOfferDiscountType[] offerDiscountTypes = specialOfferService.getAllDiscountTypes();
+        model.addAttribute("special_offers", specialOfferService.getAllSpecialOffers());
+        model.addAttribute("new_offer", new SpecialOfferDto());
+        model.addAttribute("discount_types", offerDiscountTypes);
+        return  "admin_special_offer_crud";
+    }
 
     @PostMapping("/product_edition")
     public String openProductEditForm(@RequestParam("product_id") Long id, Model model){
