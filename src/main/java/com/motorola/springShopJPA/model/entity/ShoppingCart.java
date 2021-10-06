@@ -3,12 +3,16 @@ package com.motorola.springShopJPA.model.entity;
 
 import com.motorola.springShopJPA.model.dto.ArticleDto;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 public class ShoppingCart {
 
     private Long shopUserId;
     private Map<Long, ArticleDto> articles;
+    private Long specialOfferId;
+    private BigDecimal totalValue;
+
 
     public Long getShopUserId() {
         return shopUserId;
@@ -24,5 +28,21 @@ public class ShoppingCart {
 
     public void setArticles(Map<Long, ArticleDto> articles) {
         this.articles = articles;
+    }
+
+    public Long getSpecialOfferId() {
+        return specialOfferId;
+    }
+
+    public void setSpecialOfferId(Long specialOfferId) {
+        this.specialOfferId = specialOfferId;
+    }
+
+    public BigDecimal getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(BigDecimal totalValue) {
+        this.totalValue = totalValue;
     }
 }
