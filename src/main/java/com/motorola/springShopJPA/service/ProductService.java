@@ -34,7 +34,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    private ProductDto getProductDto(Product product) {
+    public ProductDto getProductDto(Product product) {
         return modelMapper.map(product, ProductDto.class);
     }
 
@@ -57,6 +57,8 @@ public class ProductService {
             editedProduct.setPrice(productDto.getPrice());
             editedProduct.setProductCategory(productCategoryRepository.findByName(categoryName));
             productRepository.save(editedProduct);
+        } else {
+            throw new RuntimeException("Product does not exist");
         }
     }
 

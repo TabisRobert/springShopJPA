@@ -52,4 +52,15 @@ public class ProductDto {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public ProductDto() {
+    }
+
+    public ProductDto(Long id, String name, String description, BigDecimal price, ProductCategoryDto productCategory) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.productCategory = productCategory;
+    }
 }

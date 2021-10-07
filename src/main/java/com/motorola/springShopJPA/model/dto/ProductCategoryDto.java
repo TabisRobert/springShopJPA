@@ -20,4 +20,12 @@ public class ProductCategoryDto {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public ProductCategoryDto() {
+    }
+
+    public ProductCategoryDto(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

@@ -76,4 +76,15 @@ public class Product {
     public void setArticles(Set<Article> articles) {
         this.articles = articles;
     }
+
+    public Product(Long id, @NotNull String name, @NotNull String description, @NotNull BigDecimal price, ProductCategory productCategory) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.productCategory = productCategory;
+    }
+
+    public Product() {
+    }
 }

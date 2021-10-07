@@ -41,4 +41,12 @@ public class ProductCategory {
     public void setProductSet(Set<Product> productSet) {
         this.productSet = productSet;
     }
+
+    public ProductCategory() {
+    }
+
+    public ProductCategory(Long id, @NotNull String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
