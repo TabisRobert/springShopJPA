@@ -76,4 +76,15 @@ public class Article {
     public void setOrdered(boolean ordered) {
         isOrdered = ordered;
     }
+
+    public Article(Long id, Product product, @NotNull Integer quantity, @NotNull BigDecimal articleTotalPrice, boolean isOrdered) {
+        this.id = id;
+        this.product = product;
+        this.quantity = quantity;
+        this.isOrdered = isOrdered;
+        this.articleTotalPrice = articleTotalPrice;
+    }
+
+    public Article() {
+    }
 }

@@ -51,4 +51,15 @@ public class ArticleDto {
     public void setOrdered(boolean ordered) {
         isOrdered = ordered;
     }
+
+    public ArticleDto(Long id, Product product, Integer quantity, BigDecimal articleTotalPrice, boolean isOrdered) {
+        this.id = id;
+        this.product = product;
+        this.quantity = quantity;
+        this.articleTotalPrice = articleTotalPrice;
+        this.isOrdered = isOrdered;
+    }
+
+    public ArticleDto() {
+    }
 }
