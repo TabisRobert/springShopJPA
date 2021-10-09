@@ -6,10 +6,11 @@ import com.motorola.springShopJPA.model.entity.Product;
 import com.motorola.springShopJPA.model.entity.ProductCategory;
 import com.motorola.springShopJPA.repository.ProductCategoryRepository;
 import com.motorola.springShopJPA.repository.ProductRepository;
-import org.aspectj.bridge.IMessage;
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.parameters.P;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,29 +18,29 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 class ProductServiceTest {
-
-    private static final ProductCategory CATEGORY = new ProductCategory(1L, "FOOD");
-    private static final ProductCategoryDto CATEGORY_DTO = new ProductCategoryDto(1L, "FOOD");
-    private static final Product PRODUCT = new Product(1L,"Product","opis", BigDecimal.TEN, CATEGORY);
-    private static final ProductDto PRODUCT_DTO = new ProductDto(1L,"Product","opis", BigDecimal.TEN, CATEGORY_DTO);
-
 
     private final ModelMapper modelMapper = mock(ModelMapper.class);
     private final ProductRepository productRepository = mock(ProductRepository.class);
     private final ProductCategoryRepository productCategoryRepository = mock(ProductCategoryRepository.class);
 
+    private static final ProductCategory CATEGORY = new ProductCategory(1L, "FOOD");
+    private static final ProductCategoryDto CATEGORY_DTO = new ProductCategoryDto(1L, "FOOD");
+    private static final Product PRODUCT = new Product(1L,"Product","opis", BigDecimal.TEN, CATEGORY);
+    private static final ProductDto PRODUCT_DTO = new ProductDto(1L,"Product","opis", BigDecimal.TEN, CATEGORY_DTO);
     private final ProductService productService = new ProductService(modelMapper, productRepository, productCategoryRepository);
 
     @Test
     public void shouldReturnEmptyList_whenThereAreNoProducts(){
         //given
-        List<ProductDto> result = productService.getAllProducts();
+        given(productRepository.findAll()).willReturn(List.of());
+        given(productService.getAllProducts()).willReturn(List.of());
         //when
+        List<ProductDto> result = productService.getAllProducts();
         //then
         assertThat(result).isEmpty();
     }
@@ -47,7 +48,6 @@ class ProductServiceTest {
     @Test
     public void shouldReturnListWithOneProduct(){
         //given
-        given(productService.getAllProducts()).willReturn(List.of(PRODUCT_DTO));
         given(productRepository.findAll()).willReturn(List.of(PRODUCT));
         //when
         List<ProductDto> result = productService.getAllProducts();
@@ -58,7 +58,6 @@ class ProductServiceTest {
     @Test
     public void shouldReturnListWithProductMappedToProductDto(){
         //given
-        given(productService.getAllProducts()).willReturn(List.of(PRODUCT_DTO));
         given(productRepository.findAll()).willReturn(List.of(PRODUCT));
         given(modelMapper.map(PRODUCT, ProductDto.class)).willReturn(PRODUCT_DTO);
         //when

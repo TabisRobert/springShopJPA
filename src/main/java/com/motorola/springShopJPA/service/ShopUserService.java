@@ -60,7 +60,7 @@ public class ShopUserService {
         return getShopUserDto(findCurrentlyLoggedUser());
     }
 
-    ShopUser findCurrentlyLoggedUser() {
+    public ShopUser findCurrentlyLoggedUser() {
         String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         return shopUserRepository.findByEmail(username);
     }

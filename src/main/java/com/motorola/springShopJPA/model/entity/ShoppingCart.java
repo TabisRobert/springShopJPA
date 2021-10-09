@@ -45,4 +45,8 @@ public class ShoppingCart {
     public void setTotalValue(BigDecimal totalValue) {
         this.totalValue = totalValue;
     }
+
+    public ShoppingCart() {
+    }
 }
+

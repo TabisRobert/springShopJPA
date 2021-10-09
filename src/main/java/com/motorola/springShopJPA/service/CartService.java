@@ -1,6 +1,7 @@
 package com.motorola.springShopJPA.service;
 
 import com.motorola.springShopJPA.model.dto.ArticleDto;
+import com.motorola.springShopJPA.model.entity.ShopUser;
 import com.motorola.springShopJPA.model.entity.ShoppingCart;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,10 @@ public class CartService {
 
 
     public ShoppingCart createNewCart() {
+        final ShopUser currentlyLoggedUser = shopUserService.findCurrentlyLoggedUser();
+        final Long shopUserId = currentlyLoggedUser.getId();
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setShopUserId(shopUserService.findCurrentlyLoggedUser().getId());
+        shoppingCart.setShopUserId(shopUserId);
         return shoppingCart;
     }
 
